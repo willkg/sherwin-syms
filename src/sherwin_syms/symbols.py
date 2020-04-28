@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from io import BytesIO
 import tempfile
 
+from flask import current_app
 import symbolic
 
 
@@ -41,12 +42,15 @@ class Symbolicator:
 
         ndebug_id = symbolic.normalize_debug_id(debug_id)
         # FIXME(willkg): This should probably close the temp file before
-        # symbolic parses it.
-        # FIXME(willkg): The temp directory should be configurable.
+        # symbolic parses it. Also, the temp directory should be configurable.
         with tempfile.NamedTemporaryFile(suffix=".sym") as fp:
             fp.write(data)
             fp.flush()
-            print((debug_filename, debug_id, filename, fp.name))
+            current_app.logger.debug(
+                "Creating temp file %s %s %s %s" % (
+                    debug_filename, debug_id, filename, fp.name
+                )
+            )
             archive = symbolic.Archive.open(fp.name)
             obj = archive.get_object(debug_id=ndebug_id)
             symcache = obj.make_symcache()
@@ -137,8 +141,8 @@ class Symbolicator:
                         lineinfo = lineinfo[0]
 
                         data["function"] = lineinfo.symbol
-                        # FIXME(willkg): function_offset is probably wrong
-                        data["function_offset"] = hex(lineinfo.instr_addr)
+                        data["function_offset"] = hex(module_offset - lineinfo.sym_addr)
+                        data["line"] = lineinfo.line
 
                 symbolicated_stack.append(data)
 

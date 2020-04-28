@@ -5,6 +5,8 @@
 from dataclasses import dataclass
 from datetime import datetime
 
+from flask import current_app
+
 
 NO_DEFAULT = object()
 
@@ -75,6 +77,8 @@ class MemoryCacheManager(CacheManager):
         # Remove oldest items from cache until we're under max size again
         while self._cache_size() > self.maxsize:
             self.delete(self._oldest())
+
+        current_app.logger.debug("Cache size: %d" % self._cache_size())
 
     def delete(self, key):
         del self._cache[key]
