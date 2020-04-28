@@ -1,0 +1,12 @@
+version: "3.8"
+services:
+  # Socorro app image
+  app:
+    build: .
+    env_file:
+      - my.env
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
+    command: ["appdev"]
