@@ -21,7 +21,7 @@ RUN pip install -U 'pip>=8' && \
 
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONPATH=/app
+    PYTHONPATH=/app:/app/src
 
 # The app user should own everything under /app in the container
 USER app

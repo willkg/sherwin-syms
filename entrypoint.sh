@@ -25,6 +25,9 @@ case ${CMD} in
     shell)
         exec bash
         ;;
+    test)
+        pytest tests/
+        ;;
     *)
         echo "Unknown CMD ${CMD}"
         exit 1

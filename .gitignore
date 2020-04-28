@@ -1,2 +1,3 @@
 *.pyc
 my.env
+.pytest_cache

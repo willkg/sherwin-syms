@@ -28,7 +28,7 @@ my.env:
 
 .PHONY: build
 build: my.env  ## Build docker image
-	docker-compose build app
+	docker-compose build --build-arg userid=${APP_UID} --build-arg groupid=${APP_GID} app
 
 .PHONY: run
 run: my.env  ## Run app container in development mode
@@ -37,3 +37,6 @@ run: my.env  ## Run app container in development mode
 .PHONY: shell
 shell: my.env  ## Create a shell in the app image
 	docker-compose run app shell
+
+test: my.env  ## Run tests
+	docker-compose run app test
