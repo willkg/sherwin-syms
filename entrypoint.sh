@@ -14,7 +14,7 @@ fi
 CMD=$1
 shift
 
-export FLASK_APP=/app/src/sherwin_syms/main.py
+export FLASK_APP=sherwin_syms.main:create_app
 
 case ${CMD} in
     appdev)

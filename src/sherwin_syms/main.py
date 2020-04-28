@@ -2,17 +2,39 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-from flask import Flask, render_template
+from flask import current_app, Flask, render_template, request
+
+from sherwin_syms.cache import MemoryCacheManager
+from sherwin_syms.downloader import Downloader
+from sherwin_syms.symbols import Symbolicator
 
 
-app = Flask(__name__)
+def create_app():
+    app = Flask(__name__)
 
+    mcm = MemoryCacheManager(maxsizekb=1024 * 1000)
+    downloader = Downloader(source_urls=["https://symbols.mozilla.org/"])
+    app.symbolicator = Symbolicator(downloader=downloader, cachemanager=mcm)
 
-@app.route("/")
-def hello():
-    return render_template("index.html")
+    @app.route("/")
+    def hello():
+        return render_template("index.html")
 
+    @app.route("/symbolicate/v6", methods=["POST"])
+    def symbolicate_v6():
+        symbolicator = current_app.symbolicator
+        payload = request.get_json()
+        if "jobs" in payload:
+            jobs = payload["jobs"]
+        else:
+            jobs = [payload]
 
-@app.route("/symbolicate/v6")
-def symbolicate_v6():
-    return "FIXME"
+        results = []
+        for job in jobs:
+            stacks = job.get("stacks", [])
+            modules = job.get("memoryMap", [])
+
+            results.append(symbolicator.symbolicate(stacks, modules))
+        return {"results": results}
+
+    return app

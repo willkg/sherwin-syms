@@ -67,7 +67,7 @@ class MemoryCacheManager(CacheManager):
     def set(self, key, data):
         data_len = len(data)
         if data_len > self.maxsize:
-            raise CacheError("Data is larger than max size.")
+            raise CacheError("Data (%s) is larger than max size (%s)." % (data_len, self.maxsize))
 
         item = IndexItem(size=data_len, lastused=datetime.now(), data=data)
         self._cache[key] = item
