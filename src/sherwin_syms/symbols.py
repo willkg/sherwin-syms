@@ -106,13 +106,13 @@ class Symbolicator:
         :returns: dict with "stacks" and "known_modules" keys
 
         """
+        # Figure out which modules we're going to use
         modules_to_use = set()
         for stack in stacks:
             for module_index, module_offset in stack:
                 modules_to_use.add(module_index)
 
-        # Figure out which modules we're going to use
-        # Get (debug_filename, debug_id, symcache) for all the modules
+        # Get symcaches for modules we need to use and convert to Modules
         module_symcaches = self.get_symcaches(modules, modules_to_lookup=modules_to_use)
 
         found_modules = {
