@@ -2,6 +2,8 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+import json
+
 from flask import current_app, Flask, render_template, request
 
 from sherwin_syms.cache import MemoryCacheManager
@@ -23,7 +25,9 @@ def create_app():
     @app.route("/symbolicate/v6", methods=["POST"])
     def symbolicate_v6():
         symbolicator = current_app.symbolicator
-        payload = request.get_json()
+
+        payload = json.loads(request.get_data())
+
         if "jobs" in payload:
             jobs = payload["jobs"]
         else:
