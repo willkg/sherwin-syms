@@ -106,3 +106,22 @@ Each frame has the following:
 * line: The line number.
 * module: The module name.
 * module_offset: The module offset in hex.
+
+
+References
+==========
+
+https://github.com/getsentry/symbolic/blob/master/README.md
+   Symbolic README
+
+https://docs.rs/symbolic/
+   Symbolic docs
+
+https://chromium.googlesource.com/breakpad/breakpad/+/master/docs/symbol_files.md
+   Breakpad symbols docs
+
+https://chromium.googlesource.com/breakpad/breakpad/+/master/docs/stack_walking.md
+   Breakpad stackwalking docs
+
+https://tecken.readthedocs.io/en/latest/symbolication.html
+   Tecken symbolication docs
