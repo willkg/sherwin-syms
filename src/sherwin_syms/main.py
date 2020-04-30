@@ -22,8 +22,8 @@ def create_app():
     def hello():
         return render_template("index.html")
 
-    @app.route("/symbolicate/v6", methods=["POST"])
-    def symbolicate_v6():
+    @app.route("/symbolicate/v5", methods=["POST"])
+    def symbolicate_v5():
         symbolicator = current_app.symbolicator
 
         payload = json.loads(request.get_data())

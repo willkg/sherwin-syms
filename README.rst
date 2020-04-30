@@ -21,7 +21,7 @@ Set up for hacking
 Then in another terminal, you can use ``curl`` or whatever to send a
 symbolication request. For example::
 
-    curl -d '{"jobs": [{"stacks":[[[0,6516407],[0,12856365]]],"memoryMap":[["xul.pdb","09F9D7ECF31F60E34C4C44205044422E1"],["wntdll.pdb","D74F79EB1F8D4A45ABCD2F476CCABACC2"]]}]}' http://localhost:5000/symbolicate/v6
+    curl -d '{"jobs": [{"stacks":[[[0,6516407],[0,12856365]]],"memoryMap":[["xul.pdb","09F9D7ECF31F60E34C4C44205044422E1"],["wntdll.pdb","D74F79EB1F8D4A45ABCD2F476CCABACC2"]]}]}' http://localhost:5000/symbolicate/v5
 
 
 Set up for production
@@ -33,7 +33,7 @@ Don't use this in production--it's a prototype.
 Symbolication requests
 ======================
 
-:URL: ``/symbolicate/v6``
+:URL: ``/symbolicate/v5``
 :Method: POST
 :Payload: JSON
 

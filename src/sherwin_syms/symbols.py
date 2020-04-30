@@ -124,25 +124,29 @@ class Symbolicator:
             symbolicated_stack = []
             for frame_index, frame in enumerate(stack):
                 module_index, module_offset = frame
-
-                module = module_symcaches[module_index]
+                module = None
                 data = {
                     "frame": frame_index,
+                    "module": "<unknown>",
                     "module_offset": hex(module_offset),
-                    "module": module.debug_filename,
-                    "function": "unknown",
-                    "function_offset": "unknown",
                 }
-                if module.symcache is not None:
-                    lineinfo = module.symcache.lookup(module_offset)
-                    if lineinfo:
-                        # FIXME(willkg): not sure why lookup returns a list,
-                        # but grab the first line if there is one
-                        lineinfo = lineinfo[0]
 
-                        data["function"] = lineinfo.symbol
-                        data["function_offset"] = hex(module_offset - lineinfo.sym_addr)
-                        data["line"] = lineinfo.line
+                if module_index != -1:
+                    module = module_symcaches[module_index]
+                    data["module"] = module.debug_filename
+
+                    if module_offset != -1 and module.symcache is not None:
+                        lineinfo = module.symcache.lookup(module_offset)
+                        if lineinfo:
+                            # FIXME(willkg): not sure why lookup returns a list,
+                            # but grab the first line if there is one
+                            lineinfo = lineinfo[0]
+
+                            data["function"] = lineinfo.symbol
+                            data["function_offset"] = hex(
+                                module_offset - lineinfo.sym_addr
+                            )
+                            data["line"] = lineinfo.line
 
                 symbolicated_stack.append(data)
 
