@@ -2,6 +2,9 @@
 Sherwin Syms (prototype)
 ========================
 
+**Note 2023-07-17: This was a prototype for exploring an idea. It is no longer
+relevant.**
+
 Prototype web app for symbolicating stacks. Built on top of `symbolic
 <https://github.com/getsentry/symbolic>`_.
 
